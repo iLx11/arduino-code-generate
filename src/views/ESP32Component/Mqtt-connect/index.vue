@@ -32,14 +32,14 @@ import { ref, reactive, onMounted, getCurrentInstance, watch } from 'vue'
   margin: 1em 0;
   display: grid;
   grid-template-columns: 1fr;
-  grid-gap: 10px;
+  row-gap: 10px;
   grid-template-rows: 20px 330px;
   
   #mqtt-inp-box {
     display: grid;
     grid-template-columns: 1fr 3fr;
     grid-auto-rows: 35px;
-    grid-gap: 12px;
+    row-gap: 12px;
   }
   input {
     border: none;

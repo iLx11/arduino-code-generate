@@ -33,7 +33,7 @@ const wifiList = reactive([
   display: grid;
   grid-template-columns: 100%;
   grid-template-rows: 30px 50px 50px;
-  grid-gap: 10px;
+  row-gap: 10px;
   // box-shadow: 0 0 0 0.1px rgba($color: #000000, $alpha: 1.0);
   span {
     display: flex;
@@ -43,7 +43,7 @@ const wifiList = reactive([
   input {
     border: none;
     text-align: center;
-    font-size: 20px;
+    // font-size: 20px;
     background: rgba(235, 238, 242, 1);
     border-radius: 12px;
   }

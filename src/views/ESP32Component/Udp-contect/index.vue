@@ -21,12 +21,12 @@ import { ref, reactive, onMounted, getCurrentInstance, watch } from 'vue'
   margin: 1em 0;
   display: grid;
   grid-template-columns: 1fr;
-  grid-gap: 10px;
+  row-gap: 10px;
   grid-template-rows: 20px 50px 50px 50px;
   input {
      border: none;
     text-align: center;
-    font-size: 20px;
+    // font-size: 20px;
     background: rgba(235, 238, 242, 1);
     border-radius: 12px;
   }

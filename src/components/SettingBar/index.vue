@@ -24,7 +24,7 @@ import { ref, reactive, onMounted, getCurrentInstance, watch } from 'vue'
 
 
 </script>
-<style lang="scss">
+<style lang="scss" scope>
 #bar-side {
   width: 40%;
   height: 100%;
@@ -46,6 +46,9 @@ import { ref, reactive, onMounted, getCurrentInstance, watch } from 'vue'
         height: 100%;
         font-size: 20px;
       }
+    }
+    li:active {
+      border-top: 1px solid rgba(51,51,51, 0.8);
     }
   }
 }
