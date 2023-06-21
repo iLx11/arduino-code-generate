@@ -1,17 +1,60 @@
 <template>
   <div id="code-display">
-    <div id="code-display-box">
+    <div id="code-display-box" v-copy="code">
       <highlightjs language="c++" :code="code" />
     </div>
-    <div id="generate-code">点击生成代码</div>
+    <div id="generate-code" @click="generateCode">点击生成代码</div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import { ref, reactive, onMounted, getCurrentInstance, watch } from 'vue'
+import { useStore } from '@/stores/finalStr'
 
-const code = ref(
-  '// oled 屏初始化\nvoid oledInit() {\n  u8g2.begin();\n  u8g2.setFont(u8g2_font_unifont_t_symbols);\n  u8g2.firstPage();\n  u8g2.enableUTF8Print();                   //enable UTF8\n  u8g2.setFont(u8g2_font_wqy12_t_gb2312b);  //设置中文字符集\n}\n// oled 屏幕显示\nvoid oledShow(String content) {\n  do {\n    u8g2.clearBuffer();\n    u8g2.setCursor(0, 40);  //指定显示位置\n    u8g2.print(content);    //使用print来显示字符串\n  } while (u8g2.nextPage());\n}\n// oled 屏初始化\nvoid oledInit() {\n  u8g2.begin();\n  u8g2.setFont(u8g2_font_unifont_t_symbols);\n  u8g2.firstPage();\n  u8g2.enableUTF8Print();                   //enable UTF8\n  u8g2.setFont(u8g2_font_wqy12_t_gb2312b);  //设置中文字符集\n}\n// oled 屏幕显示\nvoid oledShow(String content) {\n  do {\n    u8g2.clearBuffer();\n    u8g2.setCursor(0, 40);  //指定显示位置\n    u8g2.print(content);    //使用print来显示字符串\n  } while (u8g2.nextPage());\n}\n// oled 屏初始化\nvoid oledInit() {\n  u8g2.begin();\n  u8g2.setFont(u8g2_font_unifont_t_symbols);\n  u8g2.firstPage();\n  u8g2.enableUTF8Print();                   //enable UTF8\n  u8g2.setFont(u8g2_font_wqy12_t_gb2312b);  //设置中文字符集\n}\n// oled 屏幕显示\nvoid oledShow(String content) {\n  do {\n    u8g2.clearBuffer();\n    u8g2.setCursor(0, 40);  //指定显示位置\n    u8g2.print(content);    //使用print来显示字符串\n  } while (u8g2.nextPage());\n}\n// oled 屏初始化\nvoid oledInit() {\n  u8g2.begin();\n  u8g2.setFont(u8g2_font_unifont_t_symbols);\n  u8g2.firstPage();\n  u8g2.enableUTF8Print();                   //enable UTF8\n  u8g2.setFont(u8g2_font_wqy12_t_gb2312b);  //设置中文字符集\n}\n// oled 屏幕显示\nvoid oledShow(String content) {\n  do {\n    u8g2.clearBuffer();\n    u8g2.setCursor(0, 40);  //指定显示位置\n    u8g2.print(content);    //使用print来显示字符串\n  } while (u8g2.nextPage());\n}\n// oled 屏初始化\nvoid oledInit() {\n  u8g2.begin();\n  u8g2.setFont(u8g2_font_unifont_t_symbols);\n  u8g2.firstPage();\n  u8g2.enableUTF8Print();                   //enable UTF8\n  u8g2.setFont(u8g2_font_wqy12_t_gb2312b);  //设置中文字符集\n}\n// oled 屏幕显示\nvoid oledShow(String content) {\n  do {\n    u8g2.clearBuffer();\n    u8g2.setCursor(0, 40);  //指定显示位置\n    u8g2.print(content);    //使用print来显示字符串\n  } while (u8g2.nextPage());\n}\n// oled 屏初始化\nvoid oledInit() {\n  u8g2.begin();\n  u8g2.setFont(u8g2_font_unifont_t_symbols);\n  u8g2.firstPage();\n  u8g2.enableUTF8Print();                   //enable UTF8\n  u8g2.setFont(u8g2_font_wqy12_t_gb2312b);  //设置中文字符集\n}\n// oled 屏幕显示\nvoid oledShow(String content) {\n  do {\n    u8g2.clearBuffer();\n    u8g2.setCursor(0, 40);  //指定显示位置\n    u8g2.print(content);    //使用print来显示字符串\n  } while (u8g2.nextPage());\n}\n// oled 屏初始化\nvoid oledInit() {\n  u8g2.begin();\n  u8g2.setFont(u8g2_font_unifont_t_symbols);\n  u8g2.firstPage();\n  u8g2.enableUTF8Print();                   //enable UTF8\n  u8g2.setFont(u8g2_font_wqy12_t_gb2312b);  //设置中文字符集\n}\n// oled 屏幕显示\nvoid oledShow(String content) {\n  do {\n    u8g2.clearBuffer();\n    u8g2.setCursor(0, 40);  //指定显示位置\n    u8g2.print(content);    //使用print来显示字符串\n  } while (u8g2.nextPage());\n}\n// oled 屏初始化\nvoid oledInit() {\n  u8g2.begin();\n  u8g2.setFont(u8g2_font_unifont_t_symbols);\n  u8g2.firstPage();\n  u8g2.enableUTF8Print();                   //enable UTF8\n  u8g2.setFont(u8g2_font_wqy12_t_gb2312b);  //设置中文字符集\n}\n// oled 屏幕显示\nvoid oledShow(String content) {\n  do {\n    u8g2.clearBuffer();\n    u8g2.setCursor(0, 40);  //指定显示位置\n    u8g2.print(content);    //使用print来显示字符串\n  } while (u8g2.nextPage());\n}\n// oled 屏初始化\nvoid oledInit() {\n  u8g2.begin();\n  u8g2.setFont(u8g2_font_unifont_t_symbols);\n  u8g2.firstPage();\n  u8g2.enableUTF8Print();                   //enable UTF8\n  u8g2.setFont(u8g2_font_wqy12_t_gb2312b);  //设置中文字符集\n}\n// oled 屏幕显示\nvoid oledShow(String content) {\n  do {\n    u8g2.clearBuffer();\n    u8g2.setCursor(0, 40);  //指定显示位置\n    u8g2.print(content);    //使用print来显示字符串\n  } while (u8g2.nextPage());\n}\n'
-)
+// 代码生成存放
+const code = ref<string>('')
+const store = useStore()
+const generateCode = () => {
+  code.value = store.finalStr
+}
+watch(store, () => {
+  code.value = store.finalStr
+}, {
+  immediate: true,
+  deep: true
+})
+// 自定义复制指令
+const vCopy = {
+  mounted: (el: any, { value }: any) => {
+    el.$value = value
+    el.handler = () => {
+      if (!el.$value) {
+        alert('内容为空')
+        return
+      }
+      const textarea = document.createElement('textarea')
+      textarea.readOnly = 'readOnly'
+      textarea.style.position = 'absolute'
+      textarea.style.left = '-6666px'
+      textarea.value = el.$value
+      document.body.appendChild(textarea)
+      textarea.select()
+      if (document.execCommand('Copy')) {
+        alert('复制成功')
+      }
+      document.body.removeChild(textarea)
+    }
+    //绑定事件
+    el.addEventListener('click', el.handler)
+  },
+  //当传进来的值更新的时候触发
+  updated(el, { value }) {
+    el.$value = value
+  },
+  //指令与元素解绑的时候
+  unMounted(el) {
+    el.removeEventListener('click', el.handler)
+  }
+}
 </script>
 <style lang="scss">
 pre {
@@ -32,11 +75,12 @@ code {
   grid-template-rows: 85% 12%;
   align-content: space-between;
   #code-display-box {
-    box-shadow: 0.5px 1.5px 3.6px -10px rgba(0, 0, 0, 0.151), 2px 6px 29px -10px rgba(0, 0, 0, 0.19);
-    border-radius: 23px;
+    // box-shadow: 0.5px 1.5px 3.6px -10px rgba(0, 0, 0, 0.151), 2px 6px 29px -10px rgba(0, 0, 0, 0.19);
+    border-radius: 22px;
     overflow: scroll;
     scrollbar-width: none; /* firefox */
     -ms-overflow-style: none; /* IE 10+ */
+    background: #3a404d;
   }
   #code-display-box::-webkit-scrollbar {
     display: none; /* Chrome Safari */

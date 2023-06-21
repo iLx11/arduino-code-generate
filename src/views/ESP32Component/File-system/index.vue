@@ -5,6 +5,20 @@
 </template>
 <script setup lang="ts">
 import { ref, reactive, onMounted, getCurrentInstance, watch } from 'vue'
+import Active from '@/interface/activeInterface'
+
+// 文件系统
+const fileComp = reactive<Active>({
+  headerFile: `// 文件系统\n#include "FS.h"\n#include "SPIFFS.h"\n`,
+  objDef: ``,
+  setup: `  // 文件系统初始化\n  fsInit();\n`,
+  init: `// spiffs 文件系统连接\nvoid fsInit() {\n  if (!SPIFFS.begin(FORMAT_SPIFFS_IF_FAILED)) {\n    Serial.println("SPIFFS Mount Failed.");\n    return;\n  }\n  Serial.println("SPIFFS Started.");\n}\n`,
+  loop: ``,
+  isActived: false
+})
+defineExpose({
+  fileComp
+})
 </script>
 <style lang="scss">
 #fileSystem-box {
