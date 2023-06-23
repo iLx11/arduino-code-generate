@@ -1,5 +1,5 @@
 <template>
-  <div id="ap-box">
+  <div id="ap-box" v-if="props.active">
     <span>AP</span>
     <div id="oled-inp-box">
       <span>AP名</span>
@@ -15,11 +15,21 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
-import { ref, reactive, onMounted, getCurrentInstance, watch } from 'vue'
+<script setup="props" lang="ts">
+import { ref, reactive, watch } from 'vue'
 import Active from '@/interface/activeInterface'
+import AppVue from '@/App.vue'
 
-
+const props = defineProps({
+  active: Boolean
+})
+const properties = reactive<object>({
+  apName: '',
+  apPassword: '',
+  softLocal: '',
+  softGateway: '',
+  softSubnet: ''
+})
 // AP 模式
 /**(1)
  * const char* ssid = "webcontrol";    //AP的SSID（WiFi名字）\nconst char* password = "12345678";
@@ -34,7 +44,8 @@ const APComp = reactive<Active>({
   setup: `  // AP 初始化\n  AP_init();\n`,
   init: `//AP 模式初始化\nvoid AP_init() {\n  {{replace1}}\n  WiFi.mode(WIFI_AP_STA);  //设置为AP模式(热点)\n  WiFi.softAPConfig(softLocal, softGateway, softSubnet);\n  WiFi.softAP(ssid, password);\n  IPAddress myIP = WiFi.softAPIP();  //用变量myIP接收AP当前的IP地址\n  Serial.println(myIP);              //打印输出myIP的IP地址\n}\n`,
   loop: ``,
-  isActived: false
+  isActived: false,
+  configStr: ''
 })
 defineExpose({
   APComp

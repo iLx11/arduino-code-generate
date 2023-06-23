@@ -5,4 +5,5 @@ export default interface Active {
   init: string,
   loop: string,
   isActived: boolean
+  configStr: string
 }

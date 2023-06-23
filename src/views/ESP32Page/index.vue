@@ -3,7 +3,7 @@
     <div id="component-add" @click="addComponent">添加一个组件</div>
     <div id="component-list" v-if="compListShow">
       <ul>
-        <li v-for="(v, k) in compList" :key="v.name" @click="changeListShow(k)" :class="{actived: v.isActived}">
+        <li v-for="(v, k) in compList" :key="v.name" @click="changeListShow(k)" :class="{ actived: v.isActived }">
           <div>{{ v.name }}</div>
         </li>
       </ul>
@@ -29,7 +29,7 @@ import OledHardware from '@/views/ESP32Component/Oled-hardware'
 import FileSystem from '@/views/ESP32Component/File-system'
 import ApModel from '@/views/ESP32Component/Ap-model'
 import Active from '@/interface/activeInterface'
-import { useStore } from '@/stores/finalStr' 
+import { useStore } from '@/stores/finalStr'
 import { useRoute } from 'vue-router'
 onMounted(() => {
   // console.clear()
@@ -51,15 +51,37 @@ const changeListShow = (k: number) => {
   compList[k].isActived = compList[k].isActived ? false : true
 }
 // 测试
-const test = () => {
+const test = (): void => {
   const wifiC = wifiRef.value && wifiRef.value.wifiComp
-  const final: string = `${wifiC.headerFile}${wifiC.objDef}void setup() {\n${wifiC.setup}}\nvoid loop() {\n${wifiC.loop}}\n${replaceConfig(wifiC.init, wifiC.configStr)}`
+  const udpC = udpRef.value && udpRef.value.udpComp
+  const webserverC = webserverRef.value && webserverRef.value.webserverComp
+  const oledC = oledRef.value && oledRef.value.oledComp
+  const mqttC = mqttRef.value && mqttRef.value.mqttComp
+  const fileC = fileRef.value && fileRef.value.fileComp
+  const apC = apRef.value && apRef.value.APComp
+  // 引用组件的对象
+  const compObjArray = reactive<object[]>([wifiC, udpC, webserverC, oledC, mqttC, fileC])
+  // 最后字符串的对象
+  const finalObj = compObjArray
+    .filter((o) => o.isActived)
+    .reduce((pre, cur) => {
+      pre.headerFile += replaceConfig(cur.headerFile, cur.configStr)
+      pre.obj += replaceConfig(cur.objDef, cur.configStr)
+      pre.setup += replaceConfig(cur.setup, cur.configStr)
+      pre.init += replaceConfig(cur.init, cur.configStr)
+      pre.loop += replaceConfig(cur.loop, cur.configStr)
+      return pre
+    }, {headerFile: '', obj: '', setup: '', init: '', loop: ''})
+  
+  // console.log(finalObj)
+  // 最终的结果字符串
+  const finalStr: string = `${finalObj.headerFile}\n${finalObj.obj}\nvoid setup() {\n${finalObj.setup}}\n\nvoid loop() {\n${finalObj.loop}}\n\n${finalObj.init}`
   // console.log(replaceConfig(wifiC.init, wifiC.configStr))
-  store.setStr(final)
+  store.setStr(finalStr)
   // console.log(final)
 }
 // 添加组件
-const addComponent = () => compListShow.value = compListShow.value ? false : true
+const addComponent = () => (compListShow.value = compListShow.value ? false : true)
 // 替换模板代码
 const replaceConfig = function (template: string = '', config: string = '', second: boolean = false, secondConfig: string = ''): string {
   if (second) return template && template.replace(/\{\{replace\}\}/, config).replace(/\{\{replace1\}\}/, secondConfig)
@@ -83,11 +105,10 @@ const oledRef = ref<HTMLElement | null>(null)
 const fileRef = ref<HTMLElement | null>(null)
 // AP 模式
 const apRef = ref<HTMLElement | null>(null)
-
 </script>
 <style lang="scss">
 .actived {
-  border: 0.3px solid rgba(51,51,51,0.7);
+  border: 0.3px solid rgba(51, 51, 51, 0.7);
 }
 #esp32-list {
   width: 100%;

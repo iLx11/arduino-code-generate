@@ -31,15 +31,13 @@ const addWifi = () => {
   }
   wifiList.push(obj)
 }
-const returnStr = function():string {
-  return wifiList.reduce((pre,cur) => pre + `  wifiMulti.addAP("${cur.name}", "${cur.password}");\n`, ``)
-}
+const returnStr = ():string => wifiList.reduce((pre,cur) => pre + `  wifiMulti.addAP("${cur.name}", "${cur.password}");\n`, ``)
 // const replaceStr = ref<string>('');
 // wifi 组件
 /**
  * wifiMulti.addAP("lnet", "qiaokl123");
  */
-const wifiComp = reactive({
+const wifiComp = reactive<Active>({
   headerFile: `#include <WiFi.h>\n#include <WiFiMulti.h>\n`,
   objDef: `//wifi对象定义\nWiFiMulti wifiMulti;\n`,
   setup: `  // WIFI 初始化\n  wifiInitList();\n`,
@@ -51,7 +49,7 @@ const wifiComp = reactive({
 defineExpose({
   wifiComp
 })
-watch(props, () => {
+watch(() => props.active, () => {
   wifiComp.isActived = props.active
 }, {
   immediate: true,

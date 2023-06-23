@@ -1,11 +1,15 @@
 <template>
-  <div id="fileSystem-box">
+  <div id="fileSystem-box" v-if="props.active">
     <span>fileSystem</span>
   </div>
 </template>
-<script setup lang="ts">
-import { ref, reactive, onMounted, getCurrentInstance, watch } from 'vue'
+<script setup="props" lang="ts">
+import { ref, reactive, watch } from 'vue'
 import Active from '@/interface/activeInterface'
+
+const props = defineProps({
+  active: Boolean
+})
 
 // 文件系统
 const fileComp = reactive<Active>({
@@ -14,11 +18,15 @@ const fileComp = reactive<Active>({
   setup: `  // 文件系统初始化\n  fsInit();\n`,
   init: `// spiffs 文件系统连接\nvoid fsInit() {\n  if (!SPIFFS.begin(FORMAT_SPIFFS_IF_FAILED)) {\n    Serial.println("SPIFFS Mount Failed.");\n    return;\n  }\n  Serial.println("SPIFFS Started.");\n}\n`,
   loop: ``,
-  isActived: false
+  isActived: props.active,
+  configStr: ''
 })
 defineExpose({
   fileComp
 })
+watch(() => props.active, () => {
+  fileComp.isActived = props.active
+}, {immediate: true, deep: true})
 </script>
 <style lang="scss">
 #fileSystem-box {
