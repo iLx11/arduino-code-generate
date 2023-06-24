@@ -3,15 +3,15 @@
     <span>AP</span>
     <div id="oled-inp-box">
       <span>AP名</span>
-      <input type="text" placeholder="AP名" />
+      <input type="text" placeholder="AP名" v-model="properties.apName"/>
       <span>AP密码</span>
-      <input type="text" placeholder="AP密码" />
+      <input type="text" placeholder="AP密码" v-model="properties.apPassword"/>
       <span>IP地址</span>
-      <input type="text" placeholder="IP地址" />
+      <input type="text" placeholder="IP地址" v-model="properties.softLocal"/>
       <span>IP网关</span>
-      <input type="text" placeholder="IP网关" />
+      <input type="text" placeholder="IP网关" v-model="properties.softGateway"/>
       <span>子网掩码</span>
-      <input type="text" placeholder="子网掩码" />
+      <input type="text" placeholder="子网掩码" v-model="properties.softSubnet"/>
     </div>
   </div>
 </template>
@@ -40,16 +40,23 @@ const properties = reactive<object>({
  */
 const APComp = reactive<Active>({
   headerFile: `#include <WiFi.h>\n`,
-  objDef: `//AP模式定义\n{{replace}}  //AP的密码\n`,
+  objDef: `//AP模式定义\nconst char* ssid = "${properties.apName}";    //AP的SSID（WiFi名字）\nconst char* password = "${properties.apPassword}";  //AP的密码\n`,
   setup: `  // AP 初始化\n  AP_init();\n`,
-  init: `//AP 模式初始化\nvoid AP_init() {\n  {{replace1}}\n  WiFi.mode(WIFI_AP_STA);  //设置为AP模式(热点)\n  WiFi.softAPConfig(softLocal, softGateway, softSubnet);\n  WiFi.softAP(ssid, password);\n  IPAddress myIP = WiFi.softAPIP();  //用变量myIP接收AP当前的IP地址\n  Serial.println(myIP);              //打印输出myIP的IP地址\n}\n`,
+  init: `//AP 模式初始化\nvoid AP_init() {\n  {{replace}}\n  WiFi.mode(WIFI_AP_STA);  //设置为AP模式(热点)\n  WiFi.softAPConfig(softLocal, softGateway, softSubnet);\n  WiFi.softAP(ssid, password);\n  IPAddress myIP = WiFi.softAPIP();  //用变量myIP接收AP当前的IP地址\n  Serial.println(myIP);              //打印输出myIP的IP地址\n}\n`,
   loop: ``,
-  isActived: false,
+  isActived: props.active,
   configStr: ''
 })
 defineExpose({
   APComp
 })
+watch(() => props.active, () => {
+  APComp.isActived = props.active
+}, {immediate: true, deep: true})
+watch(properties, () => {
+  APComp.objDef = `//AP模式定义\nconst char* ssid = "${properties.apName}";    //AP的SSID（WiFi名字）\nconst char* password = "${properties.apPassword}";  //AP的密码\n`
+  APComp.configStr = `IPAddress softLocal(${properties.softLocal});    //IP地址，用以设置IP第4字段\n  IPAddress softGateway(${properties.softGateway});  //IP网关，用以设置IP第3字段\n  IPAddress softSubnet(${properties.softSubnet}); //子网掩码\n`
+}, {immediate: true, deep: true})
 </script>
 <style lang="scss">
 #ap-box {

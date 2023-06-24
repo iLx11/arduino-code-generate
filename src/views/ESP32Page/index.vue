@@ -8,7 +8,7 @@
         </li>
       </ul>
     </div>
-    <div id="component-box" @click="test">
+    <div id="component-box">
       <WifiConnect ref="wifiRef" :active="compList[0].isActived" />
       <UdpContect ref="udpRef" :active="compList[1].isActived" />
       <WebserverComp ref="webserverRef" :active="compList[2].isActived" />
@@ -51,7 +51,7 @@ const changeListShow = (k: number) => {
   compList[k].isActived = compList[k].isActived ? false : true
 }
 // 测试
-const test = (): void => {
+const generFinalStr = (): void => {
   const wifiC = wifiRef.value && wifiRef.value.wifiComp
   const udpC = udpRef.value && udpRef.value.udpComp
   const webserverC = webserverRef.value && webserverRef.value.webserverComp
@@ -60,7 +60,7 @@ const test = (): void => {
   const fileC = fileRef.value && fileRef.value.fileComp
   const apC = apRef.value && apRef.value.APComp
   // 引用组件的对象
-  const compObjArray = reactive<object[]>([wifiC, udpC, webserverC, oledC, mqttC, fileC])
+  const compObjArray = reactive<object[]>([wifiC, udpC, webserverC, oledC, mqttC, fileC, apC])
   // 最后字符串的对象
   const finalObj = compObjArray
     .filter((o) => o.isActived)
@@ -105,6 +105,7 @@ const oledRef = ref<HTMLElement | null>(null)
 const fileRef = ref<HTMLElement | null>(null)
 // AP 模式
 const apRef = ref<HTMLElement | null>(null)
+watch(() => store.generState, () => generFinalStr())
 </script>
 <style lang="scss">
 .actived {
@@ -118,7 +119,7 @@ const apRef = ref<HTMLElement | null>(null)
   padding: 1em;
   display: grid;
   grid-template-columns: 100%;
-  grid-template-rows: 40px auto;
+  grid-template-rows: 40px 1fr;
   row-gap: 5px;
 }
 #component-box::-webkit-scrollbar {

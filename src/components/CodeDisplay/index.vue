@@ -1,19 +1,21 @@
 <template>
   <div id="code-display">
     <div id="code-display-box" v-copy="code">
-      <highlightjs language="c++" :code="code" />
+      <highlightjs language="arduino" :code="code" v-if="codeShow"/>
     </div>
     <div id="generate-code" @click="generateCode">点击生成代码</div>
   </div>
 </template>
 <script setup lang="ts">
-import { ref, reactive, onMounted, getCurrentInstance, watch } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import { useStore } from '@/stores/finalStr'
-
+import hljs from 'highlight.js'
 // 代码生成存放
 const code = ref<string>('')
+const codeShow = ref<Boolean>(true)
 const store = useStore()
 const generateCode = () => {
+  store.setGenerState()
   code.value = store.finalStr
 }
 watch(store, () => {
